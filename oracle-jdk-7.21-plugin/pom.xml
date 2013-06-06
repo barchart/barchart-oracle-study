@@ -1,0 +1,50 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>com.barchart.base</groupId>
+		<artifactId>barchart-archon</artifactId>
+		<version>2.5.11</version>
+		<relativePath />
+	</parent>
+
+	<groupId>com.oracle.jdk</groupId>
+	<artifactId>oracle-jdk-plugin</artifactId>
+	<version>7.21</version>
+
+	<properties>
+		<javaVersion>7</javaVersion>
+	</properties>
+
+	<dependencies>
+
+		<!-- jnlp framework / oracle jre only -->
+		<dependency>
+			<groupId>com.oracle.jre</groupId>
+			<artifactId>plugin</artifactId>
+			<version>${javaVersion}</version>
+			<type>jar</type>
+			<scope>system</scope>
+			<systemPath>${java.home}/lib/plugin.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>com.oracle.jre</groupId>
+			<artifactId>javaws</artifactId>
+			<version>${javaVersion}</version>
+			<scope>system</scope>
+			<systemPath>${java.home}/lib/javaws.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>com.oracle.jre</groupId>
+			<artifactId>deploy</artifactId>
+			<version>${javaVersion}</version>
+			<type>jar</type>
+			<scope>system</scope>
+			<systemPath>${java.home}/lib/deploy.jar</systemPath>
+		</dependency>
+
+	</dependencies>
+
+</project>

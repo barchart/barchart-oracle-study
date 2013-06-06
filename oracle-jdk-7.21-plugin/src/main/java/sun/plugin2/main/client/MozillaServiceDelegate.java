@@ -1,0 +1,111 @@
+package sun.plugin2.main.client;
+
+import com.sun.deploy.net.proxy.BrowserProxyConfig;
+import com.sun.deploy.net.proxy.ProxyHandler;
+import com.sun.deploy.security.BrowserKeystore;
+import com.sun.deploy.security.CertStore;
+import com.sun.deploy.security.CredentialManager;
+import com.sun.deploy.security.MozillaSSLRootCertStore;
+import com.sun.deploy.security.MozillaSigningRootCertStore;
+import java.io.File;
+import java.security.AccessController;
+import java.security.KeyStore;
+import java.security.KeyStoreException;
+import java.security.PrivilegedAction;
+import java.security.SecureRandom;
+import java.security.Security;
+
+public class MozillaServiceDelegate extends ServiceDelegate
+{
+  public CertStore getBrowserSigningRootCertStore()
+  {
+    if (BrowserKeystore.isJSSCryptoConfigured())
+      return new MozillaSigningRootCertStore();
+    return null;
+  }
+
+  public CertStore getBrowserSSLRootCertStore()
+  {
+    if (BrowserKeystore.isJSSCryptoConfigured())
+      return new MozillaSSLRootCertStore();
+    return null;
+  }
+
+  public CertStore getBrowserTrustedCertStore()
+  {
+    return null;
+  }
+
+  public KeyStore getBrowserClientAuthKeyStore()
+  {
+    if (BrowserKeystore.isJSSCryptoConfigured())
+    {
+      KeyStore localKeyStore = (KeyStore)AccessController.doPrivileged(new PrivilegedAction()
+      {
+        public Object run()
+        {
+          try
+          {
+            return KeyStore.getInstance("MozillaMy");
+          }
+          catch (KeyStoreException localKeyStoreException)
+          {
+            localKeyStoreException.printStackTrace();
+          }
+          return null;
+        }
+      });
+      return localKeyStore;
+    }
+    return null;
+  }
+
+  public CredentialManager getCredentialManager()
+  {
+    return CredentialManager.getInstance();
+  }
+
+  public SecureRandom getSecureRandom()
+  {
+    try
+    {
+      File localFile = new File("/dev/urandom");
+      if ((localFile != null) && (localFile.exists()))
+        Security.setProperty("securerandom.source", "file:/dev/urandom");
+    }
+    catch (Throwable localThrowable)
+    {
+    }
+    return new SecureRandom();
+  }
+
+  public boolean isNetscape()
+  {
+    return true;
+  }
+
+  public BrowserProxyConfig getProxyConfig()
+  {
+    return null;
+  }
+
+  public ProxyHandler getSystemProxyHandler()
+  {
+    return null;
+  }
+
+  public ProxyHandler getAutoProxyHandler()
+  {
+    return null;
+  }
+
+  public ProxyHandler getBrowserProxyHandler()
+  {
+    return null;
+  }
+}
+
+/* Location:           /home/user1/Temp/jvm/plugin.jar
+ * Qualified Name:     sun.plugin2.main.client.MozillaServiceDelegate
+ * JD-Core Version:    0.6.2
+ */
