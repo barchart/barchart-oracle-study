@@ -9,9 +9,9 @@
 #
 # Eclipse metadata.
 #
-.project
-.classpath
-.settings/
+#.project
+#.classpath
+#.settings/
 
 #
 # Eclipse and Maven output folders.
